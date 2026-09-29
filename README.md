@@ -28,7 +28,7 @@ For deployment or the production preview, set `VITE_API_URL` to the backend orig
 - Validated submission form with server success/error feedback.
 - Approach page and links to the public source code.
 
-All sample stories are clearly labeled fictional. No invented community metrics or vote counts are presented as real. Decorative artwork is original CSS; no stock-image or image API dependency. Google Fonts are optional with system fallbacks.
+All sample stories are clearly labeled fictional. No invented community metrics or vote counts are presented as real. Editorial artwork is generated and bundled locally; it is illustrative, not source evidence. No runtime image API is required. Google Fonts are optional with system fallbacks.
 
 ## Next
 

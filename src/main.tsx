@@ -9,7 +9,6 @@ import {
   ArrowLeft,
   Menu,
   X,
-  Compass,
   ShieldCheck,
   Radio,
   BookOpen,
@@ -170,65 +169,64 @@ function App() {
         </a>
       </header>
       {route === "/" && (
-        <section className="hero">
+        <section className="hero hero-v2">
+          <img
+            className="hero-image"
+            src="/images/investigation-board.jpg"
+            alt=""
+            fetchPriority="high"
+          />
           <div className="hero-copy">
             <p className="eyebrow">
-              <span className="live-dot" /> COMMUNITY-POWERED INVESTIGATIONS
+              <span className="live-dot" /> THE CURIOUS SIDE OF CANADA
             </p>
             <h1>
-              Every story has
+              Something
               <br />
-              another <em>side.</em>
+              doesn’t <em>add up.</em>
             </h1>
             <p className="hero-description">
-              The unexplained. The overlooked. The questions worth asking.
-              Follow the sources and explore Canada’s stories together.
+              Strange stories. Unanswered questions. A whole country of people
+              who can’t leave it alone.
+            </p>
+            <p className="hero-invitation">
+              Find a case. Follow the evidence. Help connect the dots.
             </p>
             <div className="hero-actions">
               <a href="#/cases" className="button">
-                Explore the cases <ArrowRight size={17} />
+                Find your first case <ArrowRight size={18} />
               </a>
-              <a href="#/about" className="text-link">
-                How we investigate <ArrowUpRight size={16} />
+              <a href="#/submit" className="hero-secondary">
+                Got a story? <ArrowUpRight size={16} />
               </a>
             </div>
             <div className="hero-foot">
-              <span>INDEPENDENT BY DESIGN</span>
-              <span>CURIOUS BY NATURE</span>
+              <span>
+                <ShieldCheck size={13} /> SOURCES OVER SPECULATION
+              </span>
+              <span>BUILT BY THE CURIOUS</span>
             </div>
           </div>
-          <div className="evidence-board" aria-hidden="true">
-            <div className="grid-map" />
-            <span className="coordinate">45°25′ N &nbsp; 75°42′ W</span>
-            <div className="photo photo-one">
-              <div className="landscape" />
-              <span>EXHIBIT 001 / THE LANDSCAPE</span>
-            </div>
-            <div className="photo photo-two">
-              <div className="tower">
-                <i />
-                <b />
-                <i />
-              </div>
-              <span>OTTAWA, ON / FIELD NOTES</span>
-            </div>
-            <div className="red-thread" />
-            <div className="red-thread second" />
-            <div className="note">
-              Look closer.
-              <br />
-              Ask better questions.
-              <br />
-              <strong>Follow the sources.</strong>
-            </div>
-            <span className="board-label">
-              A COUNTRY OF
-              <br />
-              UNTOLD STORIES.
-            </span>
-          </div>
+          <span className="hero-caption">
+            ONE COUNTRY. COUNTLESS LOOSE ENDS.
+          </span>
         </section>
       )}
+      {route === "/" && (
+        <div className="discovery-strip">
+          <span>FOLLOW YOUR CURIOSITY</span>
+          <a href="#/cases">
+            Unanswered questions <ArrowUpRight size={12} />
+          </a>
+          <a href="#/cases" onClick={() => setProvince("Nova Scotia")}>
+            Coastal mysteries <ArrowUpRight size={12} />
+          </a>
+          <a href="#/cases" onClick={() => setProvince("Ontario")}>
+            Hidden histories <ArrowUpRight size={12} />
+          </a>
+        </div>
+      )}
+
       <main>
         {route === "/about" ? (
           <section className="reading">
@@ -452,11 +450,80 @@ function App() {
           </section>
         ) : (
           <>
+            {route === "/" && !query && !status && !province && (
+              <section className="spotlight-section">
+                <div className="spotlight-intro">
+                  <p className="eyebrow">YOUR NEXT RABBIT HOLE</p>
+                  <h2>Go on. Look closer.</h2>
+                  <p>
+                    Every investigation starts with a question that won’t go
+                    away.
+                  </p>
+                  <span className="demo-pill">
+                    Explore fictional preview cases
+                  </span>
+                </div>
+                <a
+                  className="spotlight-card"
+                  href="#/cases/a-signal-from-the-coast"
+                >
+                  <img
+                    src="/images/coastal-mystery.jpg"
+                    alt="Illustrative boat in a misty Canadian inlet"
+                  />
+                  <div className="spotlight-shade" />
+                  <div className="spotlight-copy">
+                    <span className="story-kicker">
+                      NOVA SCOTIA <i /> MARITIME MYSTERY
+                    </span>
+                    <h3>
+                      One signal.
+                      <br />
+                      Two versions of the story.
+                    </h3>
+                    <p>
+                      The archive says one thing. A second record says another.
+                      Where does the trail lead?
+                    </p>
+                    <span className="story-link">
+                      Open the case file <ArrowRight size={17} />
+                    </span>
+                  </div>
+                  <span className="image-label">
+                    ILLUSTRATIVE ART · DEMO CASE
+                  </span>
+                </a>
+                <a
+                  className="secondary-story"
+                  href="#/cases/the-missing-museum-map"
+                >
+                  <img
+                    src="/images/archive-mystery.jpg"
+                    alt="Illustrative map and archival research desk"
+                  />
+                  <div>
+                    <span className="story-kicker">OTTAWA, ON · HISTORY</span>
+                    <h3>
+                      A map in the catalogue.
+                      <br />A gap in the collection.
+                    </h3>
+                    <p>
+                      Sometimes the most interesting clue is what’s missing.
+                    </p>
+                    <span className="story-link">
+                      Follow the paper trail <ArrowUpRight size={16} />
+                    </span>
+                  </div>
+                </a>
+              </section>
+            )}
             <div className="section-heading">
               <div>
                 <p className="eyebrow">FOLLOW THE THREAD</p>
                 <h2>
-                  {route === "/" ? "The investigation desk" : "Case archive"}
+                  {route === "/"
+                    ? "On the investigation board"
+                    : "Case archive"}
                   <span className="small-tag">PREVIEW</span>
                 </h2>
               </div>
@@ -523,9 +590,18 @@ function App() {
                       key={c.id}
                     >
                       <div className={"case-art " + c.art}>
+                        <img
+                          src={
+                            c.art === "coast"
+                              ? "/images/coastal-mystery.jpg"
+                              : c.art === "map" || c.art === "city"
+                                ? "/images/archive-mystery.jpg"
+                                : "/images/investigation-board.jpg"
+                          }
+                          alt=""
+                          loading="lazy"
+                        />
                         <span>{c.number || "CI"}</span>
-                        <Compass size={45} strokeWidth={0.6} />
-                        <small>FIELD NOTES / CANADA</small>
                       </div>
                       <div className="case-copy">
                         <div className="card-top">
