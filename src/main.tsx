@@ -15,6 +15,10 @@ import {
   ExternalLink,
 } from "lucide-react";
 import "./style.css";
+import {
+  InvestigationExperience,
+  ScrollAtmosphere,
+} from "./InvestigationExperience";
 
 type Case = {
   id: string;
@@ -141,6 +145,9 @@ function App() {
   }
   return (
     <>
+      {route === "/" && !loading && (
+        <ScrollAtmosphere key={`${query}-${status}-${province}`} />
+      )}
       <header>
         <a className="brand" href="#/">
           <span className="brand-mark">//</span> CANADA<span>INVESTIGATES</span>
@@ -516,6 +523,9 @@ function App() {
                   </div>
                 </a>
               </section>
+            )}
+            {route === "/" && !query && !status && !province && (
+              <InvestigationExperience />
             )}
             <div className="section-heading">
               <div>

@@ -30,6 +30,10 @@ For deployment or the production preview, set `VITE_API_URL` to the backend orig
 
 All sample stories are clearly labeled fictional. No invented community metrics or vote counts are presented as real. Editorial artwork is generated and bundled locally; it is illustrative, not source evidence. No runtime image API is required. Google Fonts are optional with system fallbacks.
 
+## Interactive discovery
+
+The landing page includes a fictional evidence scene with three inspectable clues, keyboard-accessible markers, exploration progress, and a link to the related case. Subtle film grain, section reveals, a reading-progress line, and a slow hero shot support the investigative mood. Motion is disabled for `prefers-reduced-motion`. The desktop scene includes a pointer-following light; mobile uses tap targets.
+
 ## Next
 
 Authentication, moderation, evidence uploads, discussions, follows, real geographic exploration, and sourced editorial case data. These features are not represented as working controls in this slice. The frontend currently uses public read endpoints and an opt-in submission API. No production deployment has been made.
