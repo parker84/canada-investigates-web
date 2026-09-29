@@ -33,6 +33,9 @@ type Case = {
   number?: string;
   art?: string;
   note?: string;
+  status_as_of?: string;
+  checked_at?: string;
+  tip?: { phone: string; url: string; label: string };
   sources: { url: string; label: string }[];
   claims?: { text: string; status: string }[];
   timeline?: { date: string; text: string }[];
@@ -55,6 +58,13 @@ const provinces = [
   "Northwest Territories",
   "Nunavut",
 ];
+const statusLabel = (value: string) =>
+  ({
+    reported: "Reported to police",
+    "witness-appeal": "Witness appeal",
+    investigating: "Investigating",
+    resolved: "Resolved",
+  })[value] || value.replaceAll("-", " ");
 function App() {
   const [route, setRoute] = useState(location.hash.slice(1) || "/");
   const [menu, setMenu] = useState(false);
@@ -71,7 +81,13 @@ function App() {
   const [sending, setSending] = useState(false);
   useEffect(() => {
     const change = () => {
-      setRoute(location.hash.slice(1) || "/");
+      const nextRoute = location.hash.slice(1) || "/";
+      setRoute(nextRoute);
+      if (nextRoute === "/") {
+        setQuery("");
+        setStatus("");
+        setProvince("");
+      }
       setMenu(false);
       window.scrollTo(0, 0);
     };
@@ -185,23 +201,31 @@ function App() {
           />
           <div className="hero-copy">
             <p className="eyebrow">
-              <span className="live-dot" /> THE CURIOUS SIDE OF CANADA
+              <span className="live-dot" /> REAL CASES. YOUR CURIOSITY COUNTS.
             </p>
             <h1>
-              Something
+              Help solve real
               <br />
-              doesn’t <em>add up.</em>
+              Canadian <em>crimes.</em>
             </h1>
             <p className="hero-description">
-              Strange stories. Unanswered questions. A whole country of people
-              who can’t leave it alone.
+              Someone knows something. A detail, a memory, a missing piece.
+              Start with the facts. See where you can help.
             </p>
             <p className="hero-invitation">
-              Find a case. Follow the evidence. Help connect the dots.
+              Open a case file. Follow the sources. Make a difference.
             </p>
             <div className="hero-actions">
-              <a href="#/cases" className="button">
-                Find your first case <ArrowRight size={18} />
+              <a
+                href="#/cases"
+                className="button"
+                onClick={() => {
+                  setQuery("");
+                  setProvince("");
+                  setStatus("active");
+                }}
+              >
+                Browse active cases <ArrowRight size={18} />
               </a>
               <a href="#/submit" className="hero-secondary">
                 Got a story? <ArrowUpRight size={16} />
@@ -221,15 +245,15 @@ function App() {
       )}
       {route === "/" && (
         <div className="discovery-strip">
-          <span>FOLLOW YOUR CURIOSITY</span>
+          <span>PICK UP THE THREAD</span>
           <a href="#/cases">
-            Unanswered questions <ArrowUpRight size={12} />
+            Browse case files <ArrowUpRight size={12} />
           </a>
-          <a href="#/cases" onClick={() => setProvince("Nova Scotia")}>
-            Coastal mysteries <ArrowUpRight size={12} />
+          <a href="#/cases" onClick={() => setProvince("Manitoba")}>
+            Winnipeg card thefts <ArrowUpRight size={12} />
           </a>
-          <a href="#/cases" onClick={() => setProvince("Ontario")}>
-            Hidden histories <ArrowUpRight size={12} />
+          <a href="#/cases" onClick={() => setProvince("British Columbia")}>
+            Vancouver witness appeal <ArrowUpRight size={12} />
           </a>
         </div>
       )}
@@ -273,9 +297,10 @@ function App() {
               </article>
             ))}
             <p className="notice">
-              Early development preview. The sample cases are fictional;
-              accounts, discussions, evidence uploads, and editorial tools are
-              still to come.
+              Real cases, drawn from public reporting and Keep Canada Weird. We
+              are independent of the podcast and police. Source dates and
+              uncertainty are shown on each file; accounts, discussions,
+              evidence uploads, and editorial tools are still to come.
             </p>
             <a
               href="https://github.com/parker84/canada-investigates-web"
@@ -341,6 +366,8 @@ function App() {
                 <label>
                   Category
                   <select name="category">
+                    <option>Theft</option>
+                    <option>Witness appeal</option>
                     <option>History</option>
                     <option>Environment</option>
                     <option>Public interest</option>
@@ -401,7 +428,7 @@ function App() {
                     CASE FILE / {detail.number || detail.id.slice(0, 8)}
                   </p>
                   <span className={"status " + detail.status}>
-                    {detail.status.replace("-", " ")}
+                    {statusLabel(detail.status)}
                   </span>
                   <h1 className="detail-title">{detail.title}</h1>
                   <p className="muted">
@@ -411,7 +438,41 @@ function App() {
                   {detail.demo && (
                     <p className="notice">FICTIONAL DEMO — {detail.note}</p>
                   )}
-                  <h2>The working question</h2>
+                  <div className="case-status-note">
+                    <p className="eyebrow">
+                      STATUS IN THE PUBLIC RECORD · {detail.status_as_of}
+                    </p>
+                    <p>{detail.note}</p>
+                    <small>
+                      Sources checked {detail.checked_at}. Artwork throughout is
+                      illustrative.
+                    </small>
+                  </div>
+                  {detail.tip && (
+                    <div className="tip-panel">
+                      <p className="eyebrow">KNOW SOMETHING THAT COULD HELP?</p>
+                      <h2>A detail could matter.</h2>
+                      <p>
+                        Share first-hand information directly with{" "}
+                        {detail.tip.label}.
+                      </p>
+                      <a
+                        className="button"
+                        href={`tel:${detail.tip.phone.replaceAll("-", "")}`}
+                      >
+                        {detail.tip.phone} <ArrowUpRight size={16} />
+                      </a>
+                      <a
+                        className="text-link"
+                        href={detail.tip.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Official contact details <ExternalLink size={14} />
+                      </a>
+                    </div>
+                  )}
+                  <h2>What the sources say</h2>
                   {detail.claims?.map((c, i) => (
                     <div className="claim" key={i}>
                       <span className="status">{c.status}</span>
@@ -457,76 +518,71 @@ function App() {
           </section>
         ) : (
           <>
-            {route === "/" && !query && !status && !province && (
-              <section className="spotlight-section">
-                <div className="spotlight-intro">
-                  <p className="eyebrow">YOUR NEXT RABBIT HOLE</p>
-                  <h2>Go on. Look closer.</h2>
-                  <p>
-                    Every investigation starts with a question that won’t go
-                    away.
-                  </p>
-                  <span className="demo-pill">
-                    Explore fictional preview cases
-                  </span>
-                </div>
-                <a
-                  className="spotlight-card"
-                  href="#/cases/a-signal-from-the-coast"
-                >
-                  <img
-                    src="/images/coastal-mystery.jpg"
-                    alt="Illustrative boat in a misty Canadian inlet"
-                  />
-                  <div className="spotlight-shade" />
-                  <div className="spotlight-copy">
-                    <span className="story-kicker">
-                      NOVA SCOTIA <i /> MARITIME MYSTERY
-                    </span>
-                    <h3>
-                      One signal.
-                      <br />
-                      Two versions of the story.
-                    </h3>
-                    <p>
-                      The archive says one thing. A second record says another.
-                      Where does the trail lead?
-                    </p>
-                    <span className="story-link">
-                      Open the case file <ArrowRight size={17} />
-                    </span>
-                  </div>
-                  <span className="image-label">
-                    ILLUSTRATIVE ART · DEMO CASE
-                  </span>
-                </a>
-                <a
-                  className="secondary-story"
-                  href="#/cases/the-missing-museum-map"
-                >
-                  <img
-                    src="/images/archive-mystery.jpg"
-                    alt="Illustrative map and archival research desk"
-                  />
-                  <div>
-                    <span className="story-kicker">OTTAWA, ON · HISTORY</span>
-                    <h3>
-                      A map in the catalogue.
-                      <br />A gap in the collection.
-                    </h3>
-                    <p>
-                      Sometimes the most interesting clue is what’s missing.
-                    </p>
-                    <span className="story-link">
-                      Follow the paper trail <ArrowUpRight size={16} />
-                    </span>
-                  </div>
-                </a>
-              </section>
-            )}
-            {route === "/" && !query && !status && !province && (
-              <InvestigationExperience />
-            )}
+            {route === "/" &&
+              !query &&
+              !status &&
+              !province &&
+              cases.length > 0 &&
+              !loading &&
+              !error && (
+                <>
+                  <section className="spotlight-section">
+                    <div className="spotlight-intro">
+                      <p className="eyebrow">REAL STORIES. LOOSE ENDS.</p>
+                      <h2>Somebody knows something.</h2>
+                      <p>
+                        From Keep Canada Weird to the source. Open a file and
+                        see what’s known.
+                      </p>
+                      <span className="demo-pill">
+                        PUBLIC REPORTING · DATED SOURCES
+                      </span>
+                    </div>
+                    {cases
+                      .slice()
+                      .sort((a, b) =>
+                        (a.number || "").localeCompare(b.number || ""),
+                      )
+                      .slice(0, 2)
+                      .map((c, i) => (
+                        <a
+                          className={
+                            i === 0 ? "spotlight-card" : "secondary-story"
+                          }
+                          href={"#/cases/" + c.slug}
+                          key={c.id}
+                        >
+                          <img
+                            src={
+                              i === 0
+                                ? "/images/archive-mystery.jpg"
+                                : "/images/investigation-board.jpg"
+                            }
+                            alt="Illustrative investigation artwork"
+                            loading="lazy"
+                          />
+                          {i === 0 && <div className="spotlight-shade" />}
+                          <div className={i === 0 ? "spotlight-copy" : ""}>
+                            <span className="story-kicker">
+                              {c.location} · {c.category}
+                            </span>
+                            <h3>{c.title}</h3>
+                            <p>{c.summary}</p>
+                            <span className="story-link">
+                              Open the case file <ArrowRight size={17} />
+                            </span>
+                          </div>
+                          {i === 0 && (
+                            <span className="image-label">
+                              ILLUSTRATIVE ART · REAL CASE
+                            </span>
+                          )}
+                        </a>
+                      ))}
+                  </section>
+                  <InvestigationExperience />
+                </>
+              )}
             <div className="section-heading">
               <div>
                 <p className="eyebrow">FOLLOW THE THREAD</p>
@@ -547,8 +603,9 @@ function App() {
                   <div className="tabs" aria-label="Filter cases">
                     {[
                       ["", "All cases"],
-                      ["open", "Open questions"],
-                      ["investigating", "Investigating"],
+                      ["active", "Active files"],
+                      ["reported", "Reported"],
+                      ["witness-appeal", "Witness appeals"],
                       ["resolved", "Resolved"],
                     ].map(([v, t]) => (
                       <button
@@ -584,7 +641,9 @@ function App() {
                   </div>
                 </div>
                 <p className="demo-label">
-                  FICTIONAL DEMO CASES · Built to show the experience
+                  REAL CASE FILES · “Active” means unresolved on our research
+                  desk. See each file for dated police status. Illustrative
+                  artwork.
                 </p>
                 {loading ? (
                   <div className="empty" role="status">
@@ -616,7 +675,7 @@ function App() {
                       <div className="case-copy">
                         <div className="card-top">
                           <span className={"status " + c.status}>
-                            {c.status.replace("-", " ")}
+                            {statusLabel(c.status)}
                           </span>
                           <span className="case-number">
                             CI — {c.number || "NEW"}
@@ -628,6 +687,9 @@ function App() {
                           {c.location}
                         </p>
                         <p className="summary">{c.summary}</p>
+                        <p className="case-date">
+                          Status reported {c.status_as_of}
+                        </p>
                         <div className="card-bottom">
                           <span className="tag">{c.category}</span>
                           <span>
@@ -681,12 +743,12 @@ function App() {
                   <button
                     className="aside-link"
                     onClick={() => {
-                      setProvince(province ? "" : "Ontario");
+                      setProvince(province ? "" : "Manitoba");
                       setQuery("");
                       setStatus("");
                     }}
                   >
-                    {province ? "Explore all provinces" : "Explore Ontario"}{" "}
+                    {province ? "Explore all provinces" : "Explore Manitoba"}{" "}
                     <ArrowRight size={16} />
                   </button>
                 </div>

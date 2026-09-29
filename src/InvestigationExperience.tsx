@@ -12,34 +12,39 @@ import "./experience.css";
 
 const clues = [
   {
-    label: "The photograph",
+    label: "The report",
     icon: Crosshair,
     position: "photo-clue",
     number: "01",
-    title: "A place. Not an answer.",
-    text: "A photograph can tell you where to look. It can’t tell you what happened. Start by asking who took it, when, and why.",
-    question: "What would you need to verify this image?",
-    note: "Illustrative artwork · not evidence",
+    title: "Start with what’s on record.",
+    text: "A Winnipeg shop reported a break-in. The Free Press included police confirmation in its September 11 coverage.",
+    question:
+      "Separate a confirmed report from an explanation of what happened.",
+    note: "Winnipeg Free Press · September 11, 2026",
+    url: "https://www.winnipegfreepress.com/breakingnews/2026/09/11/pokemon-thieves-clear-out-collectibles-shop",
   },
   {
-    label: "The record",
+    label: "The account",
     icon: FileSearch,
     position: "record",
     number: "02",
-    title: "Two records. One loose end.",
-    text: "In this fictional case, two archival entries give different dates for the same signal. A transcription error? A second event? Both possibilities stay open.",
-    question: "Find the original entry before choosing a theory.",
-    note: "Fictional case · source comparison",
+    title: "An estimate. An open question.",
+    text: "The owner described thousands of missing Pokémon cards. The inventory estimate comes from the owner’s account.",
+    question: "Who is the source of each claim? Follow the attribution.",
+    note: "Owner’s account · reported by the Free Press",
+    url: "https://www.winnipegfreepress.com/breakingnews/2026/09/11/pokemon-thieves-clear-out-collectibles-shop",
   },
   {
-    label: "The location",
+    label: "Your next step",
     icon: MapPin,
     position: "location",
     number: "03",
-    title: "Follow the shoreline.",
-    text: "A place name is a lead. Historical maps, public archives, and local knowledge could help establish whether both accounts describe the same location.",
-    question: "What changed between the two accounts?",
-    note: "Fictional case · next research step",
+    title: "Know something first-hand?",
+    text: "Relevant information belongs with investigators. Winnipeg Police lists a non-emergency reporting number: 204-986-6222.",
+    question:
+      "Share what you know directly with police. Keep private details out of public posts.",
+    note: "Winnipeg Police · official contact information",
+    url: "https://www.winnipeg.ca/police/contact",
   },
 ];
 
@@ -61,9 +66,9 @@ export function InvestigationExperience() {
       aria-labelledby="experience-title"
     >
       <div className="chapter-heading">
-        <span>01 / FOLLOW THE SIGNAL</span>
+        <span>01 / FOLLOW THE SOURCE</span>
         <span>
-          <span className="signal-dot" /> FIELD NOTES: NOVA SCOTIA
+          <span className="signal-dot" /> FIELD NOTES: WINNIPEG
         </span>
       </div>
       <div className="experience-heading">
@@ -74,9 +79,9 @@ export function InvestigationExperience() {
           </h2>
         </div>
         <p>
-          Three loose ends. Take a closer look.
+          A real case. Three ways to look closer.
           <br />
-          <span>A fictional case to explore.</span>
+          <span>The Pokémon shop break-in.</span>
         </p>
       </div>
       <div
@@ -96,13 +101,13 @@ export function InvestigationExperience() {
       >
         <div className="scene-art">
           <img
-            src="/images/coastal-mystery.jpg"
-            alt="Illustrative houseboat on a dark, misty inlet"
+            src="/images/archive-mystery.jpg"
+            alt="Illustrative research desk with maps and papers"
           />
           <div className="scene-vignette" />
           <div className="flashlight" aria-hidden="true" />
           <span className="scene-caption">
-            EXHIBIT A / THE INLET
+            THE RESEARCH DESK
             <br />
             ILLUSTRATIVE ART
           </span>
@@ -128,7 +133,7 @@ export function InvestigationExperience() {
         </div>
         <div className="evidence-dossier">
           <div className="dossier-top">
-            <span>CASE NOTES / 002</span>
+            <span>CASE NOTES / 001</span>
             <span>{opened.length} / 3 EXPLORED</span>
           </div>
           <div className="clue-tabs" aria-label="Investigation clues">
@@ -151,17 +156,24 @@ export function InvestigationExperience() {
             aria-atomic="true"
             key={active}
           >
-            <span className="clue-number">CLUE {clue.number}</span>
+            <span className="clue-number">SOURCE NOTE {clue.number}</span>
             <h3>{clue.title}</h3>
             <p>{clue.text}</p>
             <blockquote>{clue.question}</blockquote>
-            <small>{clue.note}</small>
+            <a
+              className="clue-source"
+              href={clue.url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {clue.note} ↗
+            </a>
           </div>
           <div className="dossier-actions">
             <button onClick={() => inspect((active + 1) % clues.length)}>
-              Next clue <ArrowRight size={16} />
+              Next note <ArrowRight size={16} />
             </button>
-            <a href="#/cases/a-signal-from-the-coast">
+            <a href="#/cases/terris-pokemon-break-in">
               Open full case <ArrowRight size={16} />
             </a>
           </div>
@@ -170,8 +182,8 @@ export function InvestigationExperience() {
       <div className="experience-bottom">
         <span>
           {opened.length === 3
-            ? "ALL THREE LEADS EXPLORED. THE QUESTION IS STILL OPEN."
-            : "A CLUE IS A STARTING POINT. FOLLOW IT BACK TO THE SOURCE."}
+            ? "THREE NOTES EXPLORED. KEEP FOLLOWING THE SOURCES."
+            : "EVERY CLAIM HAS A SOURCE. START THERE."}
         </span>
         <span>
           KEEP GOING <ArrowDown size={12} />

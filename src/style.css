@@ -1788,3 +1788,67 @@ main {
     font-size: 18px;
   }
 }
+
+/* Real case launch: a direct invitation and readable source context. */
+.hero-v2 h1 {
+  font-size: clamp(56px, 6.4vw, 86px);
+  max-width: 850px;
+}
+.case-status-note {
+  border-left: 2px solid #b83b36;
+  padding: 10px 0 10px 20px;
+  margin: 28px 0;
+  color: #aaa8a1;
+  line-height: 1.65;
+}
+.case-status-note .eyebrow {
+  font-size: 10px;
+}
+.tip-panel {
+  padding: 28px;
+  margin: 30px 0;
+  background: #201b1b;
+  border: 1px solid #553332;
+}
+.tip-panel h2 {
+  margin-top: 10px;
+}
+.tip-panel .button {
+  display: inline-flex;
+  margin: 10px 18px 10px 0;
+}
+.tip-panel .text-link {
+  display: inline-flex;
+}
+.clue-source {
+  color: #d4b9a0;
+  font-size: 12px;
+  line-height: 1.6;
+  text-underline-offset: 4px;
+}
+.demo-label {
+  line-height: 1.7;
+  letter-spacing: 0.06em;
+}
+@media (max-width: 600px) {
+  .hero-v2 h1 {
+    font-size: clamp(41px, 11.4vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -1.9px;
+  }
+  .hero-v2 .hero-description {
+    max-width: 350px;
+  }
+  .tip-panel {
+    padding: 22px;
+  }
+  .source {
+    overflow-wrap: anywhere;
+  }
+}
+
+.case-date {
+  color: #969a96;
+  font-size: 10px;
+  margin: 0 0 14px;
+}
