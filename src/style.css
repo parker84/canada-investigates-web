@@ -897,6 +897,122 @@ textarea {
 .success h2 {
   margin-top: 15px;
 }
+.account-page .account-form,
+.discussion-form {
+  margin: 30px 0;
+  padding: clamp(22px, 4vw, 38px);
+  border: 1px solid #3c5052;
+  background: linear-gradient(145deg, #1b292b, #101a1d 75%);
+  box-shadow: 0 24px 70px #0005;
+}
+.account-form h2,
+.discussion-form h3 {
+  margin-top: 0;
+}
+.account-form .button,
+.discussion-form .button {
+  margin-top: 12px;
+}
+.text-button {
+  border: 0;
+  background: none;
+  color: #aabbbd;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 10px 0;
+  font: inherit;
+}
+.account-page > .text-button {
+  display: block;
+  margin-top: 20px;
+}
+.discussion-section {
+  margin: 55px 0 15px;
+  border-top: 1px solid #34464a;
+  padding-top: 28px;
+}
+.discussion-section > h2 {
+  margin: 7px 0 12px;
+  font-size: 35px;
+}
+.discussion-list {
+  margin: 26px 0;
+}
+.discussion-empty {
+  border: 1px dashed #4a5c5f;
+  background:
+    radial-gradient(circle at 95% 5%, #62292e36, transparent 45%), #182326;
+  padding: 34px;
+}
+.discussion-empty span,
+.discussion-meta {
+  color: #e8787e;
+  font: 11px monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.discussion-empty h3 {
+  font-size: 25px;
+  margin: 15px 0 7px;
+}
+.discussion-empty p {
+  color: #9fb0b3;
+  line-height: 1.7;
+  max-width: 500px;
+}
+.discussion-item {
+  border-top: 1px solid #34464a;
+  padding: 22px 0;
+}
+.discussion-item p {
+  color: #d0d9da;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+.discussion-item small {
+  display: block;
+  color: #a7b7b9;
+  margin: 10px 0;
+}
+.discussion-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+.discussion-item .text-link {
+  margin-right: 20px;
+}
+.contribution-tabs,
+.review-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.contribution-tabs button,
+.review-actions button {
+  padding: 11px 13px;
+  background: #192528;
+  color: #bac9cb;
+  border: 1px solid #3c5052;
+  cursor: pointer;
+  font: 11px monospace;
+}
+.contribution-tabs button.selected {
+  background: #7d3539;
+  border-color: #d66c72;
+  color: white;
+}
+.review-actions button:first-child {
+  border-color: #679f82;
+  color: #b5dec3;
+}
+.review-actions button:last-child {
+  border-color: #b65b63;
+  color: #f3a4a9;
+}
+.my-contributions {
+  margin: 30px 0;
+}
 @media (min-width: 1450px) {
   main {
     padding-left: 0;

@@ -16,6 +16,12 @@ import {
 } from "lucide-react";
 import "./style.css";
 import {
+  AccountFlow,
+  CaseDiscussion,
+  EditorQueue,
+  type Account,
+} from "./Discussion";
+import {
   InvestigationExperience,
   ScrollAtmosphere,
 } from "./InvestigationExperience";
@@ -79,6 +85,13 @@ function App() {
   const [sent, setSent] = useState("");
   const [submitError, setSubmitError] = useState("");
   const [sending, setSending] = useState(false);
+  const [account, setAccount] = useState<Account | null>(null);
+  useEffect(() => {
+    fetch(API + "/api/v1/auth/me", { credentials: "include" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then(setAccount)
+      .catch(() => setAccount(null));
+  }, []);
   useEffect(() => {
     const change = () => {
       const nextRoute = location.hash.slice(1) || "/";
@@ -140,6 +153,7 @@ function App() {
     try {
       const response = await fetch(API + "/api/v1/cases", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
@@ -185,6 +199,9 @@ function App() {
           <a href="#/about">Our approach</a>
           <a className="mobile-submit" href="#/submit">
             Submit a case
+          </a>
+          <a href={account?.role === "editor" ? "#/editor" : "#/account"}>
+            {account ? account.display_name : "Sign in"}
           </a>
         </nav>
         <a href="#/submit" className="button header-cta">
@@ -310,8 +327,8 @@ function App() {
             <p className="notice">
               Real cases, drawn from public reporting and Keep Canada Weird. We
               are independent of the podcast and police. Source dates and
-              uncertainty are shown on each file; accounts, discussions,
-              evidence uploads, and editorial tools are still to come.
+              uncertainty are shown on each file. Contributions are reviewed
+              before publication; evidence uploads are still to come.
             </p>
             <a
               href="https://github.com/parker84/canada-investigates-web"
@@ -320,6 +337,15 @@ function App() {
               Explore the open-source project <ExternalLink size={16} />
             </a>
           </section>
+        ) : route.startsWith("/sign-in") || route === "/account" ? (
+          <AccountFlow
+            api={API}
+            route={route}
+            account={account}
+            onAccount={setAccount}
+          />
+        ) : route === "/editor" ? (
+          <EditorQueue api={API} account={account} />
         ) : route === "/submit" ? (
           <section className="reading">
             <a href="#/" className="back">
@@ -335,6 +361,12 @@ function App() {
               Share a clear question and a public source. Submissions stay
               private until editorial review.
             </p>
+            {!account && (
+              <p className="notice">
+                Sign in before submitting a case.{" "}
+                <a href="#/account">Get a sign-in link →</a>
+              </p>
+            )}
             {sent ? (
               <div className="success" role="status">
                 <ShieldCheck />
@@ -416,7 +448,7 @@ function App() {
                     {submitError}
                   </p>
                 )}
-                <button className="button" disabled={sending}>
+                <button className="button" disabled={sending || !account}>
                   {sending ? "Sending…" : "Submit for review"}{" "}
                   <ArrowRight size={16} />
                 </button>
@@ -518,11 +550,11 @@ function App() {
                       <p>{t.text}</p>
                     </div>
                   ))}
-                  <div className="notice">
-                    <ShieldCheck size={18} /> Evidence submissions and
-                    discussion will open after accounts and moderation are in
-                    place.
-                  </div>
+                  <CaseDiscussion
+                    api={API}
+                    slug={detail.slug}
+                    account={account}
+                  />
                 </>
               )
             )}
