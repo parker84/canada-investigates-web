@@ -39,3 +39,7 @@ The landing page includes a source-reading scene for the Winnipeg Pokémon shop 
 Authentication, moderation, evidence uploads, discussions, follows, real geographic exploration. These features are not represented as working controls in this slice. The frontend currently uses public read endpoints and an opt-in submission API. No production deployment has been made.
 
 Design context was recovered from the “Plan OSINT Platform” conversation and its supplied reference image. Prior starter ZIPs were unavailable, so this implementation was recreated from the agreed architecture and reference.
+
+## Editorial language
+
+Use Canadian English in all interface and editorial copy (for example, colour, centre, neighbourhood, behaviour, and licence as a noun). Preserve proper names, quoted source titles, API fields, and CSS keywords. Lead with “Real cases. You can help.” and keep “Help solve real Canadian crimes” / “Browse active cases” as the primary invitation.

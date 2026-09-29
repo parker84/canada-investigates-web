@@ -61,6 +61,7 @@ export function InvestigationExperience() {
   };
   return (
     <section
+      id="source-explorer"
       className="investigation-experience"
       ref={panel}
       aria-labelledby="experience-title"

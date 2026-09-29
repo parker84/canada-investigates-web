@@ -201,7 +201,7 @@ function App() {
           />
           <div className="hero-copy">
             <p className="eyebrow">
-              <span className="live-dot" /> REAL CASES. YOUR CURIOSITY COUNTS.
+              <span className="live-dot" /> REAL CASES. YOU CAN HELP.
             </p>
             <h1>
               Help solve real
@@ -209,11 +209,8 @@ function App() {
               Canadian <em>crimes.</em>
             </h1>
             <p className="hero-description">
-              Someone knows something. A detail, a memory, a missing piece.
-              Start with the facts. See where you can help.
-            </p>
-            <p className="hero-invitation">
-              Open a case file. Follow the sources. Make a difference.
+              Explore the case files. Understand what’s known and what’s still
+              missing. Find a way to help.
             </p>
             <div className="hero-actions">
               <a
@@ -233,9 +230,9 @@ function App() {
             </div>
             <div className="hero-foot">
               <span>
-                <ShieldCheck size={13} /> SOURCES OVER SPECULATION
+                <ShieldCheck size={13} /> SOURCES FIRST. EVERY CONTRIBUTION
+                MATTERS.
               </span>
-              <span>BUILT BY THE CURIOUS</span>
             </div>
           </div>
           <span className="hero-caption">
@@ -247,13 +244,20 @@ function App() {
         <div className="discovery-strip">
           <span>PICK UP THE THREAD</span>
           <a href="#/cases">
-            Browse case files <ArrowUpRight size={12} />
+            Explore a case <ArrowUpRight size={12} />
           </a>
-          <a href="#/cases" onClick={() => setProvince("Manitoba")}>
-            Winnipeg card thefts <ArrowUpRight size={12} />
-          </a>
-          <a href="#/cases" onClick={() => setProvince("British Columbia")}>
-            Vancouver witness appeal <ArrowUpRight size={12} />
+          <button
+            className="discovery-step"
+            onClick={() =>
+              document
+                .getElementById("source-explorer")
+                ?.scrollIntoView({ block: "start" })
+            }
+          >
+            Follow the sources <ArrowUpRight size={12} />
+          </button>
+          <a href="#/about">
+            Find out how to help <ArrowUpRight size={12} />
           </a>
         </div>
       )}
@@ -263,7 +267,7 @@ function App() {
           <section className="reading">
             <p className="eyebrow">OUR APPROACH</p>
             <h1>
-              Curiosity.
+              Contribute.
               <br />
               <em>With care.</em>
             </h1>
@@ -296,6 +300,13 @@ function App() {
                 </div>
               </article>
             ))}
+            <h2>Find your way to help</h2>
+            <p className="intro">
+              Start with a case’s source library and timeline. If you have
+              first-hand information, use the official police contact on the
+              case file. To suggest another case, share a public source through
+              our submission form.
+            </p>
             <p className="notice">
               Real cases, drawn from public reporting and Keep Canada Weird. We
               are independent of the podcast and police. Source dates and
@@ -529,7 +540,7 @@ function App() {
                   <section className="spotlight-section">
                     <div className="spotlight-intro">
                       <p className="eyebrow">REAL STORIES. LOOSE ENDS.</p>
-                      <h2>Somebody knows something.</h2>
+                      <h2>Where can you help?</h2>
                       <p>
                         From Keep Canada Weird to the source. Open a file and
                         see what’s known.
@@ -776,7 +787,7 @@ function App() {
                   <p>
                     OPEN SOURCE.
                     <br />
-                    CANADIAN CURIOSITY.
+                    CANADIAN COLLABORATION.
                   </p>
                 </div>
               </aside>
